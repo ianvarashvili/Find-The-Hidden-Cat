@@ -24,10 +24,16 @@ let box = document.querySelector("box");
 
 let score = 7;
 let highscore = 0;
+
+let gameActive = true;
+
 document.querySelector(".highscore").textContent;
 
 for (let i = 0; i < arr.length; i++) {
   arr[i].addEventListener("click", function () {
+    //stop the game if its not active
+    if (!gameActive) return;
+
     if (i === catIndex) {
       arr[i].textContent = "🐱";
       arr[i].style.backgroundColor = "rgb(51, 38, 24)";
@@ -45,26 +51,33 @@ for (let i = 0; i < arr.length; i++) {
       }
 
 
+  // flip the other cards
+  
+  for (let j = 0; j < arr.length; j++) {
+    if (j !== catIndex) {
+      arr[j].textContent = "X";
+      arr[j].style.backgroundColor = "#fcc98a"; 
+    }
+  }
 
-      //flip the other cards
+
+      gameActive = false; //stop the game after winning
+
+      
     } else {
       score--;
-      arr[i].textContent='X';
+      arr[i].textContent = "X";
 
       document.querySelector(".score").textContent = score;
-      
-      
+
       if (score > 0) {
         document.querySelector(".wintext").textContent = "you're close..";
       } else if (score <= 0) {
         document.querySelector(".score").textContent = 0;
         document.querySelector(".wintext").textContent =
           "You lost the game dumbass.";
+        gameActive = false; //stop the game after losing
       }
-
-
-
-
     }
   });
 }
@@ -93,4 +106,6 @@ document.querySelector(".again").addEventListener("click", function () {
 
   console.log(catIndex);
 
+  //make the game active again
+  gameActive = true;
 });
